@@ -1,0 +1,45 @@
+environment:
+ GIT_REPO_URL: "https://github.com/Azure-Samples/php-docs-hello-world"
+ GIT_REPO_BRANCH: "master"
+
+ BUILD_MODE : "Release"
+ BUILD_SOLUTION: "abc.sln"
+
+ AZURE_RESOURCE_GROUP : "myResourceGroup"
+ AZURE_APP_NAME : "webappname"
+ AZURE_APP_DEPLOY_SPLOT : "staging"
+
+build:
+  - 
+   description: 'Build and bundle Angular scripts'
+   cmd: "ng build"
+
+publish:
+  - 
+   description: 'Publish Web UI'
+   cmd: "dotnet publish abc.sln --configuration %BUILD_MODE%"
+  - 
+   description: 'Publish Web Api'
+   cmd: "dotnet publish abc.sln --configuration %BUILD_MODE%"
+
+  - 
+   description: 'Publish Identity Server'
+   cmd: "dotnet publish abc.sln --configuration %BUILD_MODE%"
+
+deploy: 
+  - 
+   description: "deploying Web UI"
+   cmd: "az webapp deployment source config --name %AZURE_APP_NAME% --resource-group %AZURE_RESOURCE_GROUP% --slot %AZURE_APP_DEPLOY_SPLOT% --repo-url %GIT_REPO_URL% --branch %GIT_REPO_BRANCH% --manual-integration"
+  - 
+   description: "deploying Web Api"
+   cmd: "az webapp deployment source config --name %AZURE_APP_NAME% --resource-group %AZURE_RESOURCE_GROUP% --slot %AZURE_APP_DEPLOY_SPLOT% --repo-url %GIT_REPO_URL% --branch %GIT_REPO_BRANCH% --manual-integration"
+  - 
+   description: "deploying Identity Server"
+   cmd: "az webapp deployment source config --name %AZURE_APP_NAME% --resource-group %AZURE_RESOURCE_GROUP% --slot %AZURE_APP_DEPLOY_SPLOT% --repo-url %GIT_REPO_URL% --branch %GIT_REPO_BRANCH% --manual-integration"
+
+  -
+   description: "database migration"
+   cmd : ""
+
+
+
