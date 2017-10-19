@@ -1,0 +1,5 @@
+scripts:
+ build:
+  - 
+   description : "Build and bundle Angular scripts"
+   cmd: "ng build"
